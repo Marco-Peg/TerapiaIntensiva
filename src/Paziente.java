@@ -32,4 +32,7 @@ public class Paziente {
 	public String getID(){
 		return codiceSanitario;
 	}
+	public Path getPath(){
+		return path;
+	}
 }

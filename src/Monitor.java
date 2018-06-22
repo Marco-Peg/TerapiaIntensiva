@@ -8,9 +8,9 @@ public class Monitor implements Observer{
 	
 	public Monitor(Paziente idPaziente, Subject subject){
 		this.idPaziente=idPaziente;
-		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, new File("files/database/"+idPaziente+"/Pressione"));
-		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5, new File("files/database/"+idPaziente+"/FrequenzaCardiaca"));
-		temperatura= new Signal( Signal.tipoSegnale.TEMPERATURA, 3, new File("files/database/"+idPaziente+"/Temperatura"));
+		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, new File(idPaziente.getPath()+"/Pressione"));
+		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5, new File(idPaziente.getPath()+"/FrequenzaCardiaca"));
+		temperatura= new Signal( Signal.tipoSegnale.TEMPERATURA, 3, new File(idPaziente.getPath()+"/Temperatura"));
 		pressione.run();
 		fCardiaca.run();
 		temperatura.run();
