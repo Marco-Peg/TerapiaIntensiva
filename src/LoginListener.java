@@ -25,12 +25,12 @@ public class LoginListener implements ActionListener{
 							System.out.println("Accesso consentito"); return;
 						}
 						else{
-							System.out.println("Accesso non consentito"); return;
+							JOptionPane.showMessageDialog(null, "Accesso non consentito"); return;
 						}
 					}
 					s=file.readLine();
 				}
-				System.out.println("Utente non esistente");
+				JOptionPane.showMessageDialog(null, "Utente non esistente");
 			} catch( FileNotFoundException e2){
 				System.out.println(e2);
 			} catch ( IOException e1) {
