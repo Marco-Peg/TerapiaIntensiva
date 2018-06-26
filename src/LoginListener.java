@@ -25,7 +25,7 @@ public class LoginListener implements ActionListener{
 							System.out.println("Accesso consentito"); return;
 						}
 						else{
-							JOptionPane.showMessageDialog(null, "Accesso non consentito"); return;
+							JOptionPane.showMessageDialog(null, "Accesso non consentito", "Login", JOptionPane.WARNING_MESSAGE); return;
 						}
 					}
 					s=file.readLine();
