@@ -3,6 +3,10 @@ import javax.swing.*;
 
 public class Start {
 	public static void main(String[] args) {
+		/**recupero dati archivio*/
+		//...
+			
+			
 		/**Schermata di login iniziale*/
 		JFrame frm= new JFrame("Terapia intesiva");
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
