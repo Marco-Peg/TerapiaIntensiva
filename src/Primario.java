@@ -1,4 +1,4 @@
-
-public class Primario extends Personale{
+o
+public class Primario extends Medico{
 	
 }
