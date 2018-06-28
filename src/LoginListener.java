@@ -4,6 +4,7 @@ import java.io.*;
 import javax.swing.*;
 
 public class LoginListener implements ActionListener{
+		
 		private JPanel id, password;
 		
 		public LoginListener(JPanel id, JPanel password) {
