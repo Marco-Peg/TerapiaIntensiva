@@ -1,8 +1,15 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
 
-public class Monitor implements Observer{
+/**
+ * pattern: facade
+ * @author Marco
+ *
+ */
+public class Monitor implements Observer,ActionListener{
 	private Paziente idPaziente;
 	private Signal  pressione, fCardiaca, temperatura;
 	private JFrame frm;
@@ -11,9 +18,9 @@ public class Monitor implements Observer{
 	
 	public Monitor(Paziente idPaziente, Subject subject){
 		this.idPaziente=idPaziente;
-		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, new File(idPaziente.getPath()+"/Pressione"));
-		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5, new File(idPaziente.getPath()+"/FrequenzaCardiaca"));
-		temperatura= new Signal( Signal.tipoSegnale.TEMPERATURA, 3, new File(idPaziente.getPath()+"/Temperatura"));
+		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, idPaziente.getPath());
+		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5,idPaziente.getPath());
+		temperatura= new Signal( Signal.tipoSegnale.TEMPERATURA, 3, idPaziente.getPath());
 		pressione.run();
 		fCardiaca.run();
 		temperatura.run();
@@ -41,11 +48,12 @@ public class Monitor implements Observer{
 	public void visualizza(int last){
 		this.last=last;//?come gestisco last?
 		frm=new JFrame("Parametri "+idPaziente);
-		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frm.setSize(300, 250);
 		JPanel values=new JPanel();
 		
 		//Creo i componenti nel monitor
+		/*
 		values.setLayout(new BoxLayout(values, BoxLayout.Y_AXIS));
 		pres_value=new JTextArea( pressione.getValues(last), 5, 10);
 		fCard_value=new JTextArea( fCardiaca.getValues(last), 5, 10);
@@ -66,18 +74,24 @@ public class Monitor implements Observer{
 		values.add(pressionePanel);
 		values.add(fCardiacaPanel);
 		values.add(temperaturaPanel);
-		frm.setVisible(true);
+		*/
+		values.add(pressione.getPanel(last));
+		values.add(fCardiaca.getPanel(last));
+		values.add(temperatura.getPanel(last));
+		 
 		
+		frm.setVisible(true);
+		/*
 		pressione.addObserver(this);
 		fCardiaca.addObserver(this);
-		temperatura.addObserver(this);
+		temperatura.addObserver(this);*/
 		
 	}
 	
 
 	@Override
 	public void update(Subject sub) {
-		if(sub instanceof Signal){//aggiorno la finestra di visualizzazione
+		/*if(sub instanceof Signal){//aggiorno la finestra di visualizzazione
 			switch(((Signal) sub).getSignal()){
 			case PRESSIONE: pres_value.setText(pressione.getValues(last));
 				break;
@@ -87,12 +101,19 @@ public class Monitor implements Observer{
 				break;
 			default: break;
 			}
-		}
-		else if( sub instanceof Alarm){//creo gestione allarme
+		}*/
+		if( sub instanceof Alarm){//creo gestione allarme
 		 Alarm allarme;
 		 allarme=new Alarm(idPaziente, sub.getSubjectState());
 		 allarme.run();
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(Start.logged) visualizza(15);
+		else visualizza(2*60);
 	}
 	
 	

@@ -1,19 +1,26 @@
 import java.io.*;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 
 import javax.swing.*;
-
-public class Signal extends Thread implements Subject{
+/**
+ *
+ * @author Marco
+ *
+ */
+public class Signal extends Thread /*implements Subject*/{
 	public static enum tipoSegnale{PRESSIONE, FREQUENZACARDIACA,TEMPERATURA};
 	private BufferedReader input;
-	private int time;
+	private int time, last;
 	private File path;
 	private String value=null;
 	private tipoSegnale sig;
 	private ArrayList<Observer> observers= new ArrayList<>();
+	private JTextArea panelValues= null;
+	
 	public Signal(tipoSegnale sig, int time, File path){
-		this.path=path;
+		this.path=new File(path, sig.toString());
 		set(sig, time);
 	}
 	
@@ -33,6 +40,8 @@ public class Signal extends Thread implements Subject{
 				value=input.readLine();
 				out.append((Instant.now()).toString()+';'+value+"\n");
 				notifyAll();
+				 if(panelValues!= null)
+				 	panelValues.setText(getValues(last));
 				Thread.sleep(time*60*1000);
 			}while(! this.isInterrupted());
 		} catch (IOException e) {
@@ -42,10 +51,11 @@ public class Signal extends Thread implements Subject{
 	
 	
 	public JComponent getPanel(int last){
-		JTextArea pres_value=new JTextArea( getValues(15), 5, 10);
+		this.last=last;
+		panelValues=new JTextArea( getValues(15), 5, 10);
 		JPanel panel=new JPanel();
-		panel.add(new JLabel("Pressione: "));
-		panel.add(pres_value);
+		panel.add(new JLabel(sig.toString()+": "));
+		panel.add(panelValues);
 		return panel;
 	}
 	
@@ -86,6 +96,7 @@ public class Signal extends Thread implements Subject{
 		return sig;
 	}
 
+	/*
 	@Override
 	public void addObserver(Observer o) {
 		observers.add(o);
@@ -111,5 +122,5 @@ public class Signal extends Thread implements Subject{
 	@Override
 	public int getSubjectState() {
 		return 0;
-	}
+	}*/
 }

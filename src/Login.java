@@ -4,8 +4,12 @@ import javax.swing.*;
 
 public class Login {
 	private JFrame frm;
-	
+
 	public Login() {
+		loginWindow();
+	}
+	
+	public void loginWindow() {
 		frm= new JFrame("Terapia intesiva");
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frm.setSize(300, 250);
@@ -25,7 +29,7 @@ public class Login {
 		center.add(password);
 		 JButton button=new JButton("Login");
 		button.setMargin(new Insets(10, 25, 10, 25));
-		button.addActionListener(new LoginListener(id, password));
+		button.addActionListener(new LoginListener(frm, id, password));
 		 JPanel butt=new JPanel();
 		butt.add(button);
 		center.add(butt);
@@ -37,11 +41,17 @@ public class Login {
 		frm.add(center, BorderLayout.CENTER);
 		frm.add(top, BorderLayout.NORTH);
 		
-		JMenuBar jb= new JMenuBar();
+		 JMenuBar jb= new JMenuBar();
 		frm.setJMenuBar(jb);
-		JMenu jm= new JMenu("Visualizza");
-		jb.add(jm);
-		jm.add(new JMenuItem("ParametriVitali"));
+		 JMenu jmVisualizza= new JMenu("Visualizza");
+		jb.add(jmVisualizza);
+		 JMenu jmParametriVitali=new JMenu("ParametriVitali");
+		jmVisualizza.add(jmParametriVitali);
+		for(Paziente p: Start.archivio.getLista()) {
+			JMenuItem paz=new JMenuItem(p.getID());
+			jmParametriVitali.add(paz);
+			paz.addActionListener(p.getMonitor());
+		}
 		//permetti di aprire la visualizzazione dei parametri vitali....
 		//.....
 		

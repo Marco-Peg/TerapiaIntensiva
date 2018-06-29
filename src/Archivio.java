@@ -1,8 +1,11 @@
+import java.awt.Container;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.*;
 
 
 public class Archivio implements Visualizzazione{
@@ -21,12 +24,25 @@ public class Archivio implements Visualizzazione{
 		return listaPazienti.indexOf(id);
 	}
 	
-	public Object getLista(){			//ritorna lista completa
-		return listaPazienti.toArray();
+	public List<Paziente> getLista(){			//ritorna lista completa
+		return listaPazienti;
 	}
 
 	public void visualSomm(Paziente id) {
 		// TODO Auto-generated method stub
+		JFrame frm = new JFrame("Somministrazioni ricevute");
+		frm.setSize(400,100);
+		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frm.setVisible(true);
+		
+		Container frmCP = frm.getContentPane();
+		
+		JTextArea area = new JTextArea();
+		
+		
+		
+		//area.setEditable(false);
+		
 		
 	}
 
@@ -56,7 +72,7 @@ public class Archivio implements Visualizzazione{
 	}
 	
 	public String creaDir(Paziente id){
-		Path path = Path.getPath("files/database/"+id.getID+"/"+id.getDataRicovero);
+		Path path = Path.getPath("files/database/"+id.getID()+"/"+id.getDataRicovero());
 		(new File(path.toString())).mkdirs();
 		return path.toString();
 	}
