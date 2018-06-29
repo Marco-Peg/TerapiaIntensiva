@@ -4,5 +4,5 @@ public interface Visualizzazione {
 	void visualRicPreg(Paziente id);	//Visualizza Ricoveri Pregressi
 	void visualParam(Paziente id);		//Ultime 2 ore, visibile su autenticazione
 	void visualMonitor(Paziente id);	//Ultimi 15 min, tutti possono vederlo
-	void report(Paziente id);			//Report
+	void report(Paziente id);		//Report
 }
