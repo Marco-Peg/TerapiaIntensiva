@@ -5,12 +5,12 @@ public class UserInitializer {
 		switch(ruolo) {
 		case "m": //?caso medico
 			return new Medico();
-			break;
 		case "i":  //?caso infermiere
-			return new Infermiere();
+			return new Infermiere(user, ruolo);
 		case "p": //?caso primario
 			return new Primario();
 		}
+		return null;
 	}
 }
 

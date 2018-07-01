@@ -7,10 +7,38 @@ import java.util.List;
 
 import javax.swing.*;
 
-
+/**
+ * 
+ * pattern: singleton
+ * @author Marco
+ *
+ */
 public class Archivio implements Visualizzazione{
-	private List<Paziente> listaPazienti = new ArrayList<Paziente>();
-	public Archivio(){}
+	private List<Paziente> listaPazienti;
+	private int dim;
+	private static Archivio instance;
+	
+	//?
+	private Archivio(int dim){
+		this.dim=dim;
+		listaPazienti = new ArrayList<Paziente>(dim);
+	}
+	//?
+	public static Archivio getArchivio(int i) {
+		if(instance== null)
+			instance=new Archivio(i);
+		return instance;
+	}
+	//?
+	public static Archivio getArchivio() {
+		if(instance== null)
+			instance=new Archivio(10);
+		return instance;
+	}
+	//?
+	public boolean isFull() {
+		return (dim==listaPazienti.size());
+	}
 	
 	public void addArc(Paziente id){	//aggiungi elemento a lista
 		listaPazienti.add(id);
@@ -71,9 +99,11 @@ public class Archivio implements Visualizzazione{
 		
 	}
 	
-	public String creaDir(Paziente id){
+	/*public String creaDir(Paziente id){
 		Path path = Path.getPath("files/database/"+id.getID()+"/"+id.getDataRicovero());
 		(new File(path.toString())).mkdirs();
 		return path.toString();
-	}
+	}*/
+
+	
 }

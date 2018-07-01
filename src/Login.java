@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -47,13 +50,11 @@ public class Login {
 		jb.add(jmVisualizza);
 		 JMenu jmParametriVitali=new JMenu("ParametriVitali");
 		jmVisualizza.add(jmParametriVitali);
-		for(Paziente p: Start.archivio.getLista()) {
+		for(Paziente p: Archivio.getArchivio().getLista()) {
 			JMenuItem paz=new JMenuItem(p.getID());
 			jmParametriVitali.add(paz);
 			paz.addActionListener(p.getMonitor());
 		}
-		//permetti di aprire la visualizzazione dei parametri vitali....
-		//.....
 		
 		frm.setVisible(true);
 	}
