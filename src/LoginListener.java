@@ -4,24 +4,26 @@ import java.io.*;
 import javax.swing.*;
 
 public class LoginListener implements ActionListener{
+		private JFrame log;
 		private JPanel id, password;
+		private static final UserInitializer userCreator= new UserInitializer();
 		
-		public LoginListener(JPanel id, JPanel password) {
+		public LoginListener(JFrame log, JPanel id, JPanel password) {
+			this.log=log;
 			this.id=id;
 			this.password=password;
 		}
 		public void actionPerformed(ActionEvent e) {
 			String user=((JTextField)(id.getComponent(1))).getText() ;
-			user+=';';
 			String pass=((JTextField)(password.getComponent(1))).getText() ;
-			pass+=';';
-			BufferedReader file;
-			try {
-				file= new BufferedReader(new FileReader("files/LoginData"));
+			try (BufferedReader file= new BufferedReader(new FileReader(Start.loginFile))){
 				String s=file.readLine();
 				while( s!= null ){
-					if(user.equals(s.substring(0, user.length()))){
-						if(pass.equals(s.substring(user.length(), user.length()+pass.length()))){
+					String[] v=s.split(";");
+					if(user.equals(v[0])){
+						if(pass.equals(v[1])){
+							userCreator.getUser(v[0], v[2]);
+							log.dispose();
 							System.out.println("Accesso consentito"); return;
 						}
 						else{
@@ -30,7 +32,7 @@ public class LoginListener implements ActionListener{
 					}
 					s=file.readLine();
 				}
-				JOptionPane.showMessageDialog(null, "Utente non esistente");
+				JOptionPane.showMessageDialog(null, "Utente non esistente", "Login", JOptionPane.WARNING_MESSAGE);
 			} catch( FileNotFoundException e2){
 				System.out.println(e2);
 			} catch ( IOException e1) {
