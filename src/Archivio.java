@@ -1,5 +1,9 @@
 import java.awt.Container;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,6 +29,21 @@ public class Archivio implements Visualizzazione{
 	private Archivio(int dim){
 		this.dim=dim;
 		listaPazienti = new ArrayList<Paziente>(dim);
+		try(BufferedReader read = new BufferedReader(new FileReader(new File(Start.defaultPath,"archivio")));) {
+			String v=read.readLine();
+			while(v!=null) {
+				if(v.length()>2) {
+					String[] s=v.split(";");
+					Paziente p=new Paziente(new File(s[0]),s[1]);
+					this.addArc(p);
+				}
+				v=read.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, e, "Login", JOptionPane.WARNING_MESSAGE); return;
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e, "Login", JOptionPane.WARNING_MESSAGE); return;
+		}
 	}
 	
 	/**

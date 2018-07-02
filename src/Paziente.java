@@ -53,7 +53,7 @@ public class Paziente {
 		path.mkdir();
 		//aggiorna file archivio
 		try(FileWriter out=new FileWriter(new File(Archivio.archivioPath),true)) {
-			out.write(path.toString()+"\n");
+			out.write(path.toString()+";"+codiceSanitario+"\n");
 		} catch (IOException e) {
 			System.out.println(e);
 		} 
@@ -63,14 +63,14 @@ public class Paziente {
 	/**
 	 * Costruttore di recupero
 	 */
-	public Paziente(File path){
+	public Paziente(File path,String codiceSanitario){
+		this.codiceSanitario=codiceSanitario;
 		this.path=path;
 		monitor=new Monitor(this, new ConcreteSubject());
 	}
 	
 	private void load() {
-		try {
-			BufferedReader read=new BufferedReader(new FileReader(new File(Start.databasePath, codiceSanitario+"/dati_anagrafici")));
+		try(BufferedReader read=new BufferedReader(new FileReader(new File(Start.databasePath, codiceSanitario+"/dati_anagrafici")))) {
 			String[] v=read.readLine().split(";");
 			nome=v[0];
 			cognome=v[1];
@@ -78,7 +78,7 @@ public class Paziente {
 			luogoNascita=v[3];
 			DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
 			dataNascita=  df.parse(v[4]);  
-		} catch (IOException e) {
+		} catch (IOException e) { e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

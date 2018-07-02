@@ -1,7 +1,10 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -28,8 +31,11 @@ public class Prova {
 	private static JFrame frm;
 	
 	public static void main(String[] args) {
-		Archivio.getArchivio().addArc(new Paziente("nome", "cognome", "codiceSanitario", "luogoNascita", new Date()));
-		Archivio.getArchivio().addArc(new Paziente("nome2", "cognome2", "codiceSanitar2", "luogoNascita2", new Date()));
+		new Paziente("nome", "cognome", "codiceSanitario", "luogoNascita", new Date());
+	}
+	
+	static void infermiere() {
+		new Infermiere("Tom25", "i");
 	}
 	
 	static void insertPaz() {

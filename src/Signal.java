@@ -1,13 +1,10 @@
 import java.io.*;
-import java.nio.file.Path;
 import java.time.Instant;
-import java.util.ArrayList;
-
 import javax.swing.*;
+
 /**
- *
+ *Gestore dei segnali
  * @author Marco
- *
  */
 public class Signal extends Thread /*implements Subject*/{
 	public static enum tipoSegnale{PRESSIONE, FREQUENZACARDIACA,TEMPERATURA};
@@ -38,6 +35,12 @@ public class Signal extends Thread /*implements Subject*/{
 		set(sig, time, inputFile);
 	}
 	
+	/**
+	 * Settaggio del gestore de segnale
+	 * @param sig segnale da gestire
+	 * @param time intervallo di tempo della registrazione
+	 * @param inputFile sorgente dei segnali
+	 */
 	public void set(tipoSegnale sig, int time,  File inputFile){
 		this.sig=sig;
 		this.time=time;
@@ -48,6 +51,9 @@ public class Signal extends Thread /*implements Subject*/{
 		}
 	}
 	
+	/**
+	 * Thread: registra il segnale dalla sorgente fino a quando non viene interotta dal monitor
+	 */
 	public void run(){
 		try (FileWriter out=new FileWriter(path,true);){
 			do{
@@ -62,7 +68,11 @@ public class Signal extends Thread /*implements Subject*/{
 		}
 	}
 	
-	
+	/**
+	 * Costruisce il pannello contente i segnali registrati
+	 * @param last ultimi minuti in cui prendere valori
+	 * @return	JPanel con i valori
+	 */
 	public JComponent getPanel(int last){
 		this.last=last;
 		panelValues=new JTextArea( getValues(15), 5, 10);
@@ -98,12 +108,15 @@ public class Signal extends Thread /*implements Subject*/{
 		
 	}
 	
+	/**
+	 * @return percorso in cui salva i segnali registrati
+	 */
 	public File getPath(){
 		return path;
 	}
-	public String getValue(){
-		return value;
-	}
+	/**
+	 * @return tipo del segnale che registra
+	 */
 	public tipoSegnale getSignal(){
 		return sig;
 	}

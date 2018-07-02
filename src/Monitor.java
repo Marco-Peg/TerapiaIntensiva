@@ -1,22 +1,28 @@
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileReader;
 
 import javax.swing.*;
 
 /**
+ * Monitor che gestisce la ricezione dei segnali e eventuali allarmi
  * pattern: facade
- * @author Marco
  *
  */
 public class Monitor implements Observer,ActionListener{
 	private Paziente idPaziente;
 	private Signal  pressione, fCardiaca, temperatura;
 	private JFrame frm;
-	private JTextArea pres_value, fCard_value,temp_value;
 	private int last;
-	
+
+	/**
+	 * Costruttore: inizializza i gestori di segnali e allarmi
+	 * @param idPaziente paziente a cui è associato il monitor
+	 * @param subject sorgente di allarmi
+	 */
 	public Monitor(Paziente idPaziente, Subject subject){
 		this.idPaziente=idPaziente;
 		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.PRESSIONE.toString()));
@@ -28,31 +34,46 @@ public class Monitor implements Observer,ActionListener{
 		subject.addObserver(this); //allarme 
 	}
 	
+	/**
+	 * @return path in cui salva pressione
+	 */
 	public File getPressione(){
 		return pressione.getPath();
 	}
+	/**
+	 * @return path in cui salva frequenza cardiaca
+	 */
 	public File getFrequenza(){
 		return fCardiaca.getPath(); 
 	}
+	/**
+	 * @return path in cui salva temperatura
+	 */
 	public File getTemperatura(){
 		return temperatura.getPath();
 	}
-	
+	/**
+	 * termina i gestori dei segnali
+	 */
 	public void stop(){
 		pressione.interrupt();
 		fCardiaca.interrupt();
 		temperatura.interrupt();
 	}
 	/**
-	 * Finestra di visualizzazione dei parametri ultimi 15 minuti(sempre aggiornata)
+	 * Finestra di visualizzazione dei parametri ultimi last minuti(sempre aggiornata)
+	 * @param last ultimi minuti in cui registrare
 	 */
 	public void visualizza(int last){
 		this.last=last;//?come gestisco last?
 		frm=new JFrame("Parametri "+idPaziente);
 		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frm.setSize(300, 250);
+		frm.setSize(300, 500);
+		JLabel jlabel = new JLabel("MONITORAGGIO PARAMETRI VITALI "+idPaziente.getID());
+	    jlabel.setFont(new Font("Verdana",1,20));
+	    frm.add(jlabel, BorderLayout.NORTH);
 		JPanel values=new JPanel();
-		
+		values.setLayout(new FlowLayout());
 		//Creo i componenti nel monitor
 		/*
 		values.setLayout(new BoxLayout(values, BoxLayout.Y_AXIS));
@@ -76,12 +97,11 @@ public class Monitor implements Observer,ActionListener{
 		values.add(fCardiacaPanel);
 		values.add(temperaturaPanel);
 		*/
-		//Compongo i componenti del monitor
-		values.add(pressione.getPanel(last));
-		values.add(fCardiaca.getPanel(last));
-		values.add(temperatura.getPanel(last));
+		//Compongo i panel dei gestori del monitor
+		values.add(pressione.getPanel(last), BorderLayout.CENTER);
+		values.add(fCardiaca.getPanel(last), BorderLayout.CENTER);
+		values.add(temperatura.getPanel(last), BorderLayout.CENTER);
 		 
-		
 		frm.setVisible(true);
 		/*
 		pressione.addObserver(this);
@@ -91,7 +111,9 @@ public class Monitor implements Observer,ActionListener{
 	}
 	
 
-	@Override
+	/**
+	 * Reazione al notify del subject
+	 */
 	public void update(Subject sub) {
 		/*if(sub instanceof Signal){//aggiorno la finestra di visualizzazione
 			switch(((Signal) sub).getSignal()){
@@ -111,7 +133,9 @@ public class Monitor implements Observer,ActionListener{
 		}
 	}
 
-	@Override
+	/**
+	 * azione effettuata alla pressione del tasto visualizzazione
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(Start.logged) visualizza(15);
