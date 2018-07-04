@@ -3,6 +3,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+/**
+ * Listener per il logout
+ * @author Marco
+ *
+ */
 public class LogoutListener implements ActionListener {
 	private JFrame frm;
 	
@@ -14,7 +19,7 @@ public class LogoutListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		Start.logged=false;
 		frm.dispose();
-		Login log=new Login();
+		new Login();
 	}
 
 }

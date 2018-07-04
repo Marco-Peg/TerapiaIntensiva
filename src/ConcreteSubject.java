@@ -1,34 +1,37 @@
-
+import java.util.ArrayList;
+/**
+ * Simulatore della sorgente di allarmi
+ * @author Marco
+ *
+ */
 public class ConcreteSubject implements Subject {
-
+	private ArrayList<Observer> observers=new ArrayList<>();
+	private int state=0;
+	
 	@Override
 	public void addObserver(Observer o) {
-		// TODO Auto-generated method stub
-
+		observers.add(o);
 	}
 
 	@Override
 	public void deleteObserver(Observer o) {
-		// TODO Auto-generated method stub
-
+		observers.remove(o);
 	}
 
 	@Override
 	public void NotifyAll() {
-		// TODO Auto-generated method stub
-
+		for(Observer o:observers)
+			o.update(this);
 	}
 
 	@Override
 	public void setState(int state) {
-		// TODO Auto-generated method stub
-
+		this.state=state;
 	}
 
 	@Override
 	public int getSubjectState() {
-		// TODO Auto-generated method stub
-		return 0;
+		return state;
 	}
 
 }

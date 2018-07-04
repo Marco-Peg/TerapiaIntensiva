@@ -1,14 +1,22 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Insets;
 
 import javax.swing.*;
 
+/**
+ * Sessione per gli infermieri
+ * @author Marco
+ *
+ */
 public class Infermiere extends Personale{
 	
-	
+	/**
+	 * Costruttore: genera finestra della sessione
+	 * @param id identificatore utente
+	 * @param ruolo ruolo
+	 */
 	public Infermiere(String id, String ruolo) {
 		super.id=id;
 		this.ruolo=ruolo;
@@ -17,30 +25,41 @@ public class Infermiere extends Personale{
 
 
 	@Override
+	/**
+	 * Aggiunge le opzioni caratteristiche per infermieri
+	 */
 	JPanel setPanel() {
 		JPanel out=new JPanel();
-		
+		out.setLayout(new BoxLayout(out, BoxLayout.Y_AXIS));
 		//Inserimento nuovo paziente
 		 JButton newPaziente= new JButton("Registra nuovo paziente");
-	    newPaziente.setMargin(new Insets(10, 25, 10, 25));
+		 newPaziente.setAlignmentX(Component.CENTER_ALIGNMENT);
 		newPaziente.addActionListener(new PazienteListener());
+		newPaziente.setMargin(new Insets(10, 25, 10, 25));
+		out.add(newPaziente);
 		//Inserimento prescrizione
 		 JButton prescrizione= new JButton("Registra prescizione");
-		prescrizione.setMargin(new Insets(10, 25, 10, 25));
+		 prescrizione.setAlignmentX(Component.CENTER_ALIGNMENT);
 		prescrizione.addActionListener(new Prescizione());
-		
-		
+		prescrizione.setMargin(new Insets(10, 25, 10, 25));
+		out.add(prescrizione);
 		return out;
 	}
 
 	@Override
+	/**
+	 * Aggiunge menu caratteristici per infermieri
+	 */
 	JMenu addMenu() {
 		// TODO Auto-generated method stub
-		return null;
+		return new JMenu("");
 	}
 
 
 	@Override
+	/**
+	 * Crea l'intestazione per l'infermiere
+	 */
 	JPanel setHeaderPanel() {
 		JPanel out = new JPanel();
 		out.setBorder(BorderFactory.createLineBorder(Color.green));

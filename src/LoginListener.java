@@ -1,25 +1,38 @@
 import java.awt.event.*;
 import java.io.*;
-import java.nio.file.attribute.UserPrincipalLookupService;
 
 import javax.swing.*;
 
+
+/**
+ * Listener al bottone di login
+ * @author Marco
+ *
+ */
 public class LoginListener implements ActionListener{
 		private JFrame log;
 		private JPanel id, password;
 		private static final UserInitializer userCreator= new UserInitializer();
 		
+		/**
+		 * Costruttore: salva le variabili necessarie alla gestione del login
+		 * @param log  finestra di login
+		 * @param id  panel con il testo dello user
+		 * @param password  panel con il testo della password
+		 */
 		public LoginListener(JFrame log, JPanel id, JPanel password) {
 			this.log=log;
 			this.id=id;
 			this.password=password;
 		}
+		
+		/**
+		 * Controlla che i campi siano corretti e permette accesso di utenti
+		 */
 		public void actionPerformed(ActionEvent e) {
 			String user=((JTextField)(id.getComponent(1))).getText() ;
 			String pass=((JTextField)(password.getComponent(1))).getText() ;
-			BufferedReader file;
-			try {
-				file= new BufferedReader(new FileReader(Start.loginFile));
+			try (BufferedReader file= new BufferedReader(new FileReader(Start.loginFile))){
 				String s=file.readLine();
 				while( s!= null ){
 					String[] v=s.split(";");
@@ -27,6 +40,7 @@ public class LoginListener implements ActionListener{
 						if(pass.equals(v[1])){
 							userCreator.getUser(v[0], v[2]);
 							log.dispose();
+							Start.logged=true;
 							System.out.println("Accesso consentito"); return;
 						}
 						else{

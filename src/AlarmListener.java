@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
@@ -23,22 +22,21 @@ public class AlarmListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String user=id.getText() ;
-		user+=';';
-		String pass=password.getText() ;
-		pass+=';';
-		BufferedReader file;
-		try {
-			file= new BufferedReader(new FileReader("files/LoginData"));
+		String user=((JTextField)(id.getComponent(1))).getText() ;
+		String pass=((JTextField)(password.getComponent(1))).getText() ;
+		try (BufferedReader file= new BufferedReader(new FileReader(Start.loginFile))){
 			String s=file.readLine();
 			while( s!= null ){
-				if(user.equals(s.substring(0, user.length()))){
-					if(pass.equals(s.substring(user.length(), user.length()+pass.length()))){
-						//???????
+				String[] v=s.split(";");
+				if(user.equals(v[0])){
+					if(pass.equals(v[1])){
+						if(v[2].equals("m") || v[2].equals("p")){
 						//?salva azioni effettuate
 						JOptionPane.showMessageDialog(null, "Allarme gestito con successo", "Gestione allarme", JOptionPane.INFORMATION_MESSAGE);
 						a.interrupt();
 						return;
+						}
+						JOptionPane.showMessageDialog(null, "Accesso non consentito. Ruolo non autorizzato", "Login", JOptionPane.WARNING_MESSAGE); return;	
 					}
 					else{
 						JOptionPane.showMessageDialog(null, "Accesso non consentito", "Login", JOptionPane.WARNING_MESSAGE); return;

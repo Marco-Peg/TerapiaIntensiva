@@ -1,11 +1,22 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -13,24 +24,30 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.MaskFormatter;
 
-/**
- * Finestra con i campi di inserimento dei dati paziente
- * @author Marco
- *
- */
-public class PazienteListener implements ActionListener {
-	private JFrame frm=null;
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if(Archivio.getArchivio().isFull()) {
-			JOptionPane.showMessageDialog(null, "Terapia intensiva al completo", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
-		}
-	 if(frm==null) {
+public class Prova {
+	private static JFrame frm;
+	
+	public static void main(String[] args) {
+		DateFormat form=  new  SimpleDateFormat();   ///("yyyy/MM/dd HH:mm:ss");
+
+		System.out.println(form.format(new Date()));
+		System.out.println((new Date()).toString());
+
+	}
+	
+	static void infermiere() {
+		new Infermiere("Tom25", "i");
+	}
+	
+	static void insertPaz() {
+		
 		frm= new JFrame("Registrazione nuovo paziente");
 		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frm.setLayout(new FlowLayout());
@@ -78,7 +95,63 @@ public class PazienteListener implements ActionListener {
 		button.addActionListener(new InsertListener(frm, nome, cognome, codiceSanitario, luogoNascita, spin));
 		frm.add(button);
 		
-		frm.setVisible(true);	
-	  }	
+		frm.setVisible(true);
+	}
+	
+	void generatoreMonitor() {
+		Random rn=new Random();
+		float temp;
+		FileWriter out=null;
+		try {
+			out=new FileWriter(new File("files/Monitoraggio/",  Signal.tipoSegnale.PRESSIONE.toString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for(int i=0; i<50; i++) {
+			 temp=rn.nextFloat()*70+90;
+			 System.out.println(temp);
+			 try {
+				out.write(temp+"\n");out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		try {
+		 out=new FileWriter(new File("files/Monitoraggio/",  Signal.tipoSegnale.TEMPERATURA.toString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for(int i=0; i<50; i++) {
+			 temp=rn.nextFloat()*2+36;
+			 System.out.println(temp);
+			 try {
+				out.write(temp+"\n");out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		try {
+			 out=new FileWriter(new File("files/Monitoraggio/",  Signal.tipoSegnale.FREQUENZACARDIACA.toString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		for(int i=0; i<50; i++) {
+			 temp=rn.nextFloat()*30+60;
+			 System.out.println(temp);
+			 try {
+				out.write(temp+"\n");out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

@@ -1,10 +1,15 @@
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Insets;
-import java.time.Instant;
 import java.time.LocalTime;
 
 import javax.swing.*;
 
+/**
+ * Gestore dell'allarme
+ * @author Marco
+ *
+ */
 public class Alarm extends Thread {
 	private Paziente idPaziente;
 	private int state;
@@ -59,11 +64,13 @@ public class Alarm extends Thread {
 			tempo=1; break;
 		}
 		
-		end= (LocalTime.now()).plusMinutes(tempo);
+		 end= (LocalTime.now()).plusMinutes(tempo);
 		frm= new JFrame("Gestore allarme");
+		frm.setLayout(new FlowLayout());
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frm.setSize(300, 250);
+		frm.setSize(700, 300);
 		 JPanel intestazione=new JPanel();
+		intestazione.setLayout(new FlowLayout());
 		intestazione.add(new JLabel("Paziente: "+idPaziente.getCognome()+' '+idPaziente.getNome()));
 		intestazione.add(new JLabel("Tipo allarme: "+nomeAllarme));
 		intestazione.add(new JLabel("Termine allarme: "+end.toString()));
@@ -81,14 +88,14 @@ public class Alarm extends Thread {
 		password.setMaximumSize(new Dimension(300, 100));
 		frm.add(password);
 		 JPanel input= new JPanel();
-		JTextArea inputField= new JTextArea(10,8);
+		JTextArea inputField= new JTextArea(10,15);
 		input.add(new JLabel("Attività effettuate: "));
 		input.add(inputField);
 		input.setMaximumSize(new Dimension(300, 100));
 		frm.add(input);
 		 JButton button=new JButton("Spegni Allarme");
 		button.setMargin(new Insets(10, 25, 10, 25));
-		button.addActionListener(new AlarmListener(this, idField,passField, inputField));
+		button.addActionListener(new AlarmListener(null, idField,passField, inputField));
 		frm.add(button);
 		
 		frm.setVisible(true);

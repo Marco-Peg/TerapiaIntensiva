@@ -1,17 +1,25 @@
 import java.awt.*;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.*;
 
+/**
+ * Finestra di login
+ * @author Marco
+ *
+ */
 public class Login {
 	private JFrame frm;
-
+	
+	/**
+	 * costruttore: genera la finesta di login
+	 */
 	public Login() {
 		loginWindow();
 	}
 	
+	/**
+	 * Assembla e rende visibile la finestra di login
+	 */
 	public void loginWindow() {
 		frm= new JFrame("Terapia intesiva");
 		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +46,9 @@ public class Login {
 		center.add(butt);
 		
 		 JPanel top= new JPanel();
-		top.add(new JLabel("Terapia Intensiva"));
+		JLabel titolo=new JLabel("Terapia Intensiva");
+		titolo.setFont(new Font("Verdana",1,20));
+		top.add(titolo);
 		top.setPreferredSize(new Dimension(300,50));
 		
 		frm.add(center, BorderLayout.CENTER);
@@ -48,13 +58,7 @@ public class Login {
 		frm.setJMenuBar(jb);
 		 JMenu jmVisualizza= new JMenu("Visualizza");
 		jb.add(jmVisualizza);
-		 JMenu jmParametriVitali=new JMenu("ParametriVitali");
-		jmVisualizza.add(jmParametriVitali);
-		for(Paziente p: Archivio.getArchivio().getLista()) {
-			JMenuItem paz=new JMenuItem(p.getID());
-			jmParametriVitali.add(paz);
-			paz.addActionListener(p.getMonitor());
-		}
+		jmVisualizza.add(Archivio.getArchivio().getParamVitali());
 		
 		frm.setVisible(true);
 	}

@@ -8,15 +8,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+/**
+ * Listener per la gestione dell'inserimento del paziente
+ * @author Marco
+ *
+ */
 public class InsertListener implements ActionListener {
 	private JFrame frm;
 	private JPanel nome, cognome, codiceSanitario, luogoNascita;
@@ -53,8 +56,7 @@ public class InsertListener implements ActionListener {
 		System.out.println(name+" "+surname+" "+codSan+" "+lNascita+" "+(Date)spin.getValue());
 		File f=new File(Start.databasePath, codSan);
 		if(f.exists()) {
-			try {
-				BufferedReader dati= new BufferedReader(new FileReader(Start.loginFile));
+			try (	BufferedReader dati= new BufferedReader(new FileReader(Start.loginFile))) {
 				String[] v=dati.readLine().split(";");
 				if(v[0]!=name){
 					JOptionPane.showMessageDialog(null, "Paziente già registrato. Nome non corrisponde", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
