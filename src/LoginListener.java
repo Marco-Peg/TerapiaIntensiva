@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.*;
 import java.io.*;
 
@@ -10,7 +12,6 @@ import javax.swing.*;
  *
  */
 public class LoginListener implements ActionListener{
-		private JFrame log;
 		private JPanel id, password;
 		private static final UserInitializer userCreator= new UserInitializer();
 		
@@ -20,8 +21,7 @@ public class LoginListener implements ActionListener{
 		 * @param id  panel con il testo dello user
 		 * @param password  panel con il testo della password
 		 */
-		public LoginListener(JFrame log, JPanel id, JPanel password) {
-			this.log=log;
+		public LoginListener( JPanel id, JPanel password) {
 			this.id=id;
 			this.password=password;
 		}
@@ -38,8 +38,13 @@ public class LoginListener implements ActionListener{
 					String[] v=s.split(";");
 					if(user.equals(v[0])){
 						if(pass.equals(v[1])){
+							//chiudo tutte finestre attualmente visibili
+							for(Window w:Window.getWindows()) {
+								//se ho allarmi attivi??
+								if(!w.getBackground().equals(Color.RED))
+									w.dispose();
+							}
 							userCreator.getUser(v[0], v[2]);
-							log.dispose();
 							Start.logged=true;
 							System.out.println("Accesso consentito"); return;
 						}

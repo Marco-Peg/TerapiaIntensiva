@@ -53,7 +53,6 @@ public class InsertListener implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Campo vuoto", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
 		//@test
-		System.out.println(name+" "+surname+" "+codSan+" "+lNascita+" "+(Date)spin.getValue());
 		File f=new File(Start.databasePath, codSan);
 		if(f.exists()) {
 			try (	BufferedReader dati= new BufferedReader(new FileReader(Start.loginFile))) {

@@ -1,10 +1,6 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +16,7 @@ import javax.swing.*;
 public class Monitor implements Observer,ActionListener{
 	private Paziente idPaziente;
 	private Signal  pressione, fCardiaca, temperatura;
-	private JFrame frm;
+	private JFrame frm=new JFrame();
 	private int last;
 
 	/**
@@ -28,7 +24,7 @@ public class Monitor implements Observer,ActionListener{
 	 * @param idPaziente paziente a cui è associato il monitor
 	 * @param subject sorgente di allarmi
 	 */
-	public Monitor(Paziente idPaziente, Subject subject){
+	public Monitor(Paziente idPaziente, ConcreteSubject subject){
 		this.idPaziente=idPaziente;
 		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 1, idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.PRESSIONE.toString()));
 		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5,idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.FREQUENZACARDIACA.toString()));
@@ -37,6 +33,7 @@ public class Monitor implements Observer,ActionListener{
 		fCardiaca.start();
 		temperatura.start();
 		subject.addObserver(this); //allarme 
+		subject.start();
 	}
 	
 	/**
@@ -127,11 +124,9 @@ public class Monitor implements Observer,ActionListener{
 			default: break;
 			}
 		}*/
-		if( sub instanceof Alarm){//creo gestione allarme
 		 Alarm allarme;
 		 allarme=new Alarm(idPaziente, sub.getSubjectState());
-		 allarme.run();
-		}
+		 allarme.start();
 	}
 
 	/**
@@ -139,6 +134,7 @@ public class Monitor implements Observer,ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(frm.isShowing()) return;
 		if(!Start.logged) visualizza(15);
 		else visualizza(2*60);
 	}

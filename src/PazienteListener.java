@@ -24,13 +24,13 @@ import javax.swing.text.MaskFormatter;
  *
  */
 public class PazienteListener implements ActionListener {
-	private JFrame frm=null;
+	private JFrame frm=new JFrame();
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(Archivio.getArchivio().isFull()) {
 			JOptionPane.showMessageDialog(null, "Terapia intensiva al completo", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
-	 if(frm==null) {
+	 if(!frm.isShowing()) {
 		frm= new JFrame("Registrazione nuovo paziente");
 		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frm.setLayout(new FlowLayout());

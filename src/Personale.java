@@ -66,7 +66,7 @@ public abstract class Personale {
 		
 		JMenu utente= new JMenu("Utente");
 		JMenuItem logout=new JMenuItem("LogOut");
-		logout.addActionListener(new LogoutListener(frm));
+		logout.addActionListener(new LogoutListener());
 		utente.add(logout);
 		jb.add(utente);
 		

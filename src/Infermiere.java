@@ -37,12 +37,12 @@ public class Infermiere extends Personale{
 		newPaziente.addActionListener(new PazienteListener());
 		newPaziente.setMargin(new Insets(10, 25, 10, 25));
 		out.add(newPaziente);
-		//Inserimento prescrizione
-		 JButton prescrizione= new JButton("Registra prescizione");
-		 prescrizione.setAlignmentX(Component.CENTER_ALIGNMENT);
-		prescrizione.addActionListener(new Prescizione());
-		prescrizione.setMargin(new Insets(10, 25, 10, 25));
-		out.add(prescrizione);
+		//Inserimento somministrazione
+		 JButton somministrazione= new JButton("Registra somministrazione");
+		 somministrazione.setAlignmentX(Component.CENTER_ALIGNMENT);
+		somministrazione.addActionListener(new Somministrazione());
+		somministrazione.setMargin(new Insets(10, 25, 10, 25));
+		out.add(somministrazione);
 		return out;
 	}
 

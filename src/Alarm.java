@@ -1,3 +1,5 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -65,51 +67,57 @@ public class Alarm extends Thread {
 		}
 		
 		 end= (LocalTime.now()).plusMinutes(tempo);
-		frm= new JFrame("Gestore allarme");
-		frm.setLayout(new FlowLayout());
-		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frm.setSize(700, 300);
-		 JPanel intestazione=new JPanel();
-		intestazione.setLayout(new FlowLayout());
-		intestazione.add(new JLabel("Paziente: "+idPaziente.getCognome()+' '+idPaziente.getNome()));
-		intestazione.add(new JLabel("Tipo allarme: "+nomeAllarme));
-		intestazione.add(new JLabel("Termine allarme: "+end.toString()));
-		frm.add(intestazione);
-		 JPanel id= new JPanel();
-		JTextField idField= new JTextField(10);
-		id.add(new JLabel("ID utente :"));
-		id.add(idField);
-		id.setMaximumSize(new Dimension(300, 100));
-		frm.add(id);
-		 JPanel password= new JPanel();
-		JPasswordField passField=new JPasswordField(10);
-		password.add(new JLabel("Password : "));
-		password.add(passField);
-		password.setMaximumSize(new Dimension(300, 100));
-		frm.add(password);
-		 JPanel input= new JPanel();
-		JTextArea inputField= new JTextArea(10,15);
-		input.add(new JLabel("Attività effettuate: "));
-		input.add(inputField);
-		input.setMaximumSize(new Dimension(300, 100));
-		frm.add(input);
-		 JButton button=new JButton("Spegni Allarme");
-		button.setMargin(new Insets(10, 25, 10, 25));
-		button.addActionListener(new AlarmListener(null, idField,passField, inputField));
-		frm.add(button);
+		 frm= new JFrame("Gestore allarme");
+		 frm.setBackground(Color.RED);
+			frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frm.setSize(700, 380);
+			 JPanel intestazione=new JPanel();
+			intestazione.setBorder(BorderFactory.createLineBorder(Color.black));
+			intestazione.setLayout(new BoxLayout(intestazione, BoxLayout.Y_AXIS));
+			intestazione.add(new JLabel("Paziente: "+idPaziente.getCognome()+' '+idPaziente.getNome()));
+			intestazione.add(new JLabel("Tipo allarme: "+nomeAllarme));
+			intestazione.add(new JLabel("Termine allarme: "+end.toString()));
+			frm.add(intestazione, BorderLayout.NORTH);
+			 JPanel center=new JPanel();
+			 JPanel credenziali=new JPanel();
+			 JPanel id= new JPanel();
+			JTextField idField= new JTextField(10);
+			id.add(new JLabel("ID utente :"));
+			id.add(idField);
+			id.setMaximumSize(new Dimension(300, 100));
+			credenziali.add(id);
+			 JPanel password= new JPanel();
+			JPasswordField passField=new JPasswordField(10);
+			password.add(new JLabel("Password : "));
+			password.add(passField);
+			password.setMaximumSize(new Dimension(300, 100));
+			credenziali.add(password);
+			center.add(credenziali);
+			 JPanel input= new JPanel();
+			JTextArea inputField= new JTextArea(10,45);
+			input.add(new JLabel("Attività effettuate: "));
+			input.add(inputField, BorderLayout.CENTER);
+			input.setMaximumSize(new Dimension(300, 100));
+			center.add(input);
+			center.setBorder(BorderFactory.createLineBorder(Color.gray));
+			frm.add(center, BorderLayout.CENTER);
+			 JButton button=new JButton("Spegni Allarme");
+			button.setMargin(new Insets(10, 25, 10, 25));
+			button.addActionListener(new AlarmListener(this, idField,passField, inputField));
+			frm.add(button, BorderLayout.SOUTH);
 		
-		frm.setVisible(true);
+		frm.setVisible(true); frm.toFront();
 		try {
 			Thread.sleep(tempo*60*1000);
 		} catch (InterruptedException e) {
+			frm.dispose();
 			return;
 		}
-		
+		frm.dispose();
 		JOptionPane.showMessageDialog(null,
 			    "L'allarme del paziente "+idPaziente.getCognome()+' '+idPaziente.getNome()+"del tipo "+nomeAllarme +" non è statto gestito.",
 			    "Allarme non gestito", JOptionPane.ERROR_MESSAGE);
 		//?salvataggio dell'allarme non gestito
-		frm.dispose();
 	}
 
 	

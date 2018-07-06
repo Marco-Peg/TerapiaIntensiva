@@ -40,7 +40,7 @@ public class Login {
 		center.add(password);
 		 JButton button=new JButton("Login");
 		button.setMargin(new Insets(10, 25, 10, 25));
-		button.addActionListener(new LoginListener(frm, id, password));
+		button.addActionListener(new LoginListener( id, password));
 		 JPanel butt=new JPanel();
 		butt.add(button);
 		center.add(butt);
