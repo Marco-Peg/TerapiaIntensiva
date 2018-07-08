@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JFormattedTextField;
@@ -25,6 +26,15 @@ public class InsertListener implements ActionListener {
 	private JPanel nome, cognome, codiceSanitario, luogoNascita;
 	private  JSpinner spin;
 	
+	/**
+	 * Costruttore
+	 * @param frm
+	 * @param nome
+	 * @param cognome
+	 * @param codiceSanitario
+	 * @param luogoNascita
+	 * @param spin
+	 */
 	public InsertListener(JFrame frm,JPanel nome,JPanel cognome, JPanel codiceSanitario,JPanel luogoNascita,JSpinner spin){
 		this.frm=frm;
 		this.nome=nome;
@@ -40,8 +50,19 @@ public class InsertListener implements ActionListener {
 		Component[] comp=nome.getComponents();
 		name=((JTextComponent) comp[1]).getText();
 		comp=codiceSanitario.getComponents();
+		//controllo codice sanitario
 		if(!((JFormattedTextField) comp[1]).isEditValid()) {
 			JOptionPane.showMessageDialog(null, "Codice sanitario non valido", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
+		}
+		//controllo data
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.YEAR, -1);
+		Date max=calendar.getTime();
+		calendar.add(Calendar.YEAR, -150);
+		Date earliestDate = calendar.getTime();
+		Date d=(Date)(spin.getValue());
+		if(d.after(max) || d.before(earliestDate)) {
+			JOptionPane.showMessageDialog(null, "Data non valida", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
 		codSan=((JTextComponent) comp[1]).getText();
 		codSan.toUpperCase();
@@ -52,7 +73,7 @@ public class InsertListener implements ActionListener {
 		if(name.length()==0 || surname.length()==0 || lNascita.length()==0 || codSan.length()==0) {
 			JOptionPane.showMessageDialog(null, "Campo vuoto", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
-		//@test
+		//controllo dati corrispondono
 		File f=new File(Start.databasePath, codSan);
 		if(f.exists()) {
 			try (	BufferedReader dati= new BufferedReader(new FileReader(Start.loginFile))) {

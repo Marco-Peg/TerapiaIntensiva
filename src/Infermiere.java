@@ -40,7 +40,7 @@ public class Infermiere extends Personale{
 		//Inserimento somministrazione
 		 JButton somministrazione= new JButton("Registra somministrazione");
 		 somministrazione.setAlignmentX(Component.CENTER_ALIGNMENT);
-		somministrazione.addActionListener(new Somministrazione());
+		somministrazione.addActionListener(new SomministrazioneListener());
 		somministrazione.setMargin(new Insets(10, 25, 10, 25));
 		out.add(somministrazione);
 		return out;

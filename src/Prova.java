@@ -1,8 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,15 +36,19 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 
 public class Prova {
 	private static JFrame frm;
+	private static InsertListener ins;
 	
-	public static void main(String[] args) {
-		allarme();
+		public static void main(String[] args) {
+				insertPaz();
+				
 
 	}
+	
 	
 	static void infermiere() {
 		new Infermiere("Tom25", "i");
@@ -84,7 +91,7 @@ public class Prova {
 		calendar.add(Calendar.YEAR, -100);
 		Date earliestDate = calendar.getTime();
 		SpinnerDateModel model=new SpinnerDateModel();
-		model = new SpinnerDateModel(initDate, earliestDate, initDate, Calendar.YEAR);
+		//model = new SpinnerDateModel(initDate, earliestDate, initDate, Calendar.YEAR);
 		 JSpinner spin= new JSpinner(model);
 		spin.setEditor(new JSpinner.DateEditor(spin,"dd/MM/yyyy"));
 		 JPanel dataNascita= new JPanel();
@@ -93,7 +100,8 @@ public class Prova {
 		frm.add(dataNascita);	
 		 JButton button=new JButton("Registra nuovo paziente");
 		button.setMargin(new Insets(10, 25, 10, 25));
-		button.addActionListener(new InsertListener(frm, nome, cognome, codiceSanitario, luogoNascita, spin));
+		ins=new InsertListener(frm, spin);
+		button.addActionListener(ins);
 		frm.add(button);
 		
 		frm.setVisible(true);
@@ -210,5 +218,42 @@ public class Prova {
 		frm.dispose();
 	}
 	
+	public static class InsertListener implements ActionListener {
+		private JFrame frm;
+		private JPanel nome, cognome, codiceSanitario, luogoNascita;
+		private  JSpinner spin;
+		
+		/**
+		 * Costruttore
+		 * @param frm
+		 * @param nome
+		 * @param cognome
+		 * @param codiceSanitario
+		 * @param luogoNascita
+		 * @param spin
+		 */
+		public InsertListener(JFrame frm,JSpinner spin){
+			this.frm=frm;
+			
+			this.spin=spin;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			String name,surname, codSan, lNascita;
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.YEAR, -1);
+			Date max=calendar.getTime();
+			calendar.add(Calendar.YEAR, -100);
+			Date earliestDate = calendar.getTime();
+			
+				Date d=(Date)(spin.getValue());
+				if(d.after(max) || d.before(earliestDate) || d.equals(new Date())) System.out.println("Error");
+				
+				System.out.println(d);
+			
+		}
+
+	}
 	
 }

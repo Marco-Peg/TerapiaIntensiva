@@ -17,6 +17,7 @@ public class Paziente {
 	private String diagnosi; //??medico deve gestire
 	private Monitor monitor;
 	private File path; //directory in cui salvo tutti i dati del ricovero attuale
+	static private DateFormat form=  new  SimpleDateFormat();
 	
 	/**
 	 * Costruttore di inizializzazione
@@ -38,7 +39,7 @@ public class Paziente {
 			path.mkdir(); //creo directory
 			//creo e riempo file dati anagrafici
 			try(FileWriter out=new FileWriter(new File(path, "dati_anagrafici"),true)) {
-				out.write(nome+";"+cognome+";"+codiceSanitario+";"+luogoNascita+";"+dataNascita.toString());
+				out.write(nome+";"+cognome+";"+codiceSanitario+";"+luogoNascita+";"+form.format(dataNascita.toString()));
 			} catch (IOException e) {
 				System.out.println(e);
 			} 
@@ -70,8 +71,7 @@ public class Paziente {
 			cognome=v[1];
 			codiceSanitario=v[2];
 			luogoNascita=v[3];
-			DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
-			dataNascita=  df.parse(v[4]);  
+			dataNascita= form.parse(v[4]);  
 		} catch (IOException e) { e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();

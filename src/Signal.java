@@ -20,7 +20,7 @@ public class Signal extends Thread /*implements Subject*/{
 	private String value=null;
 	private tipoSegnale sig;
 	private JTextArea panelValues= null;
-	private DateFormat form=  new  SimpleDateFormat();
+	static private DateFormat form=  new  SimpleDateFormat();
 	
 	/**
 	 * Costruttore: crea il path in cui salvare, e setta la registrazione dei segnali
