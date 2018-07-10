@@ -18,16 +18,18 @@ public class Alarm extends Thread {
 	private JFrame frm;
 	private LocalTime end;
 	
+	/**
+	 * Costruttore
+	 * @param idPaziente
+	 * @param state
+	 */
 	public Alarm(Paziente idPaziente, int state) {
 		this.idPaziente=idPaziente;
 		this.state=state;
 	}
 	
-	/*
-	 * capire che allarme è 
-	 * genera finestra pop-up per gestire allarme 
-	 * se non ripsonde entro tempo, notifica il primario
-	 * 
+	/**
+	 * Gestisce allarme: determina il tipo, genera finestra per gestire allarme entro tempo
 	 */
 	public void run(){
 		String nomeAllarme;
@@ -70,12 +72,14 @@ public class Alarm extends Thread {
 		 frm= new JFrame("Gestore allarme");
 		 frm.setBackground(Color.RED);
 			frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frm.setSize(700, 380);
+			frm.setSize(700, 400);
 			 JPanel intestazione=new JPanel();
 			intestazione.setBorder(BorderFactory.createLineBorder(Color.black));
 			intestazione.setLayout(new BoxLayout(intestazione, BoxLayout.Y_AXIS));
 			intestazione.add(new JLabel("Paziente: "+idPaziente.getCognome()+' '+idPaziente.getNome()));
+			intestazione.add(new JLabel("Codice sanitario: "+idPaziente.getID()));
 			intestazione.add(new JLabel("Tipo allarme: "+nomeAllarme));
+			intestazione.add(new JLabel("Tempo massimo di risposta: "+tempo+" minuti"));
 			intestazione.add(new JLabel("Termine allarme: "+end.toString()));
 			frm.add(intestazione, BorderLayout.NORTH);
 			 JPanel center=new JPanel();
@@ -96,7 +100,7 @@ public class Alarm extends Thread {
 			 JPanel input= new JPanel();
 			JTextArea inputField= new JTextArea(10,45);
 			input.add(new JLabel("Attività effettuate: "));
-			input.add(inputField, BorderLayout.CENTER);
+			input.add(new JScrollPane(inputField), BorderLayout.CENTER);
 			input.setMaximumSize(new Dimension(300, 100));
 			center.add(input);
 			center.setBorder(BorderFactory.createLineBorder(Color.gray));

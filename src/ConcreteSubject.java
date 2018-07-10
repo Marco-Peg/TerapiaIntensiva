@@ -16,7 +16,6 @@ public class ConcreteSubject extends Thread  implements Subject {
 	
 	public void run() {
 		Random rnd=new Random();
-		System.out.println("Inizio allarme");
 		int t=rnd.nextInt(60);
 		try(BufferedReader r=new BufferedReader(new FileReader(new File("Test/Allarmi")))) {
 			Thread.sleep(t*1000);

@@ -68,6 +68,7 @@ public class Signal extends Thread /*implements Subject*/{
 				out.write(form.format(new Date())+';'+value+"\n"); out.flush();
 				 //if(panelValues != null)
 				try {
+					if(panelValues.isShowing()) 
 				 	panelValues.setText(getValues(last));
 				}catch (Exception e) {
 				}
