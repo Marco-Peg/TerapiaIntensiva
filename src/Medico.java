@@ -26,21 +26,21 @@ public class Medico extends Personale{
 
 	@Override
 	/**
-	 * Aggiunge le opzioni caratteristiche per infermieri
+	 * Aggiunge le opzioni caratteristiche per medici
 	 */
 	JPanel setPanel() {
 		JPanel out=new JPanel();
 		out.setLayout(new BoxLayout(out, BoxLayout.Y_AXIS));
-		//Inserimento nuovo paziente
+		//Inserimento diagnosi
 		JButton newDiagnosi= new JButton("Inserimento Diagnosi");
 		newDiagnosi.setAlignmentX(Component.CENTER_ALIGNMENT);
-		//newDiagnosi.addActionListener(new DiagnosiListener());
+		newDiagnosi.addActionListener(new DiagnosiListener());
 		newDiagnosi.setMargin(new Insets(10, 25, 10, 25));
 		out.add(newDiagnosi);
 		//Inserimento prescrizione
 		JButton prescrizione= new JButton("Registra prescrizione");
 		prescrizione.setAlignmentX(Component.CENTER_ALIGNMENT);
-		prescrizione.addActionListener(new Prescrizione());
+//		prescrizione.addActionListener(new Prescrizione());
 		prescrizione.setMargin(new Insets(10, 25, 10, 25));
 		out.add(prescrizione);
 		return out;
