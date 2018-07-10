@@ -1,5 +1,5 @@
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -25,7 +26,8 @@ import javax.swing.GroupLayout.SequentialGroup;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			String[] paz = Archivio.getArchivio().getArray();
 			
 			JFrame frm = new JFrame("Somministrazioni");
 			frm.setSize(400,400);
@@ -34,6 +36,7 @@ import javax.swing.GroupLayout.SequentialGroup;
 			
 	        JButton salva= new JButton("Salva Dati");
 			
+			JComboBox pazList = new JComboBox(paz);
 			
 			JLabel label = new JLabel("SOMMINISTRAZIONI RICEVUTE:");
 
@@ -54,6 +57,7 @@ import javax.swing.GroupLayout.SequentialGroup;
 	        SequentialGroup h1 = layout.createSequentialGroup();
 	        ParallelGroup h2 = layout.createParallelGroup(GroupLayout.Alignment.TRAILING);
 	        //Add a scroll panel and a label to the parallel group h2
+	        h2.addComponent(pazList, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
 	        h2.addComponent(scroll, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
 	        h2.addComponent(label, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
 	        h2.addComponent(salva, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE);
@@ -78,6 +82,8 @@ import javax.swing.GroupLayout.SequentialGroup;
 	        //Add a label to the sequential group v1
 			v1.addComponent(label);
 	        v1.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED);
+	        v1.addComponent(pazList);
+	        v1.addContainerGap();
 	        //Add scroll panel to the sequential group v1
 	        v1.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE);
 	        v1.addContainerGap();
@@ -89,20 +95,18 @@ import javax.swing.GroupLayout.SequentialGroup;
 			layout.setVerticalGroup(vGroup);
 	        frm.pack();
 		
-			try(FileReader file = new FileReader("Somministrazioni.txt")){
+			/*try(FileReader file = new FileReader("Somministrazioni.txt")){
 		        BufferedReader reader =  new BufferedReader(file);
 		        area.read(reader, null);
 			}catch (IOException e) {
 			// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			
-	        salva.addActionListener(new SalvaSomministrazioni(area, frm));
+	        salva.addActionListener(new SalvaSomministrazioni(area, frm, pazList));
 			
 
 			
 		}
 
 	}
-	
-
