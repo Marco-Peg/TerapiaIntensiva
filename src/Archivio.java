@@ -150,7 +150,7 @@ public class Archivio implements Visualizzazione{
 		layout.setVerticalGroup(vGroup);
 		frm.pack();
 
-		try(FileReader file = new FileReader("Somministrazioni.txt")){
+		try(FileReader file = new FileReader(id.getPath(), "Somministrazioni")){
 	        BufferedReader reader =  new BufferedReader(file);
 	        area.read(reader, null);
 		}catch (IOException e) {
