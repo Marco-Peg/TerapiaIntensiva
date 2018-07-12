@@ -11,9 +11,9 @@ public class SalvaDiagnosi implements ActionListener{
 	
 	private JTextArea area;
 	private JFrame frame;
-	private JComboBox pazList;
+	private JComboBox<String> pazList;
 	
-	public SalvaSomministrazioni(JTextArea area, JFrame frame, JComboBox pazList){
+	public SalvaDiagnosi(JTextArea area, JFrame frame, JComboBox<String> pazList){
 		this.area = area;
 		this.frame = frame;
 		this.pazList = pazList;

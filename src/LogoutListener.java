@@ -1,20 +1,29 @@
+import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+/**
+ * Listener per il logout
+ * @author Marco
+ *
+ */
 public class LogoutListener implements ActionListener {
-	private JFrame frm;
 	
-	public LogoutListener(JFrame frm) {
-		this.frm=frm;
+	public LogoutListener() {
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Start.logged=false;
-		frm.dispose();
-		Login log=new Login();
+		//chiudo tutte finestre attualmente visibili
+		for(Window w:Window.getWindows()) {
+			if(!w.getBackground().equals(Color.RED))
+			w.dispose();
+		}
+		new Login();
 	}
 
 }

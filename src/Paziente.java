@@ -1,28 +1,23 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.swing.JOptionPane;
 
 public class Paziente {
 	private String nome, cognome, codiceSanitario;
 	private Date dataNascita;
 	private String luogoNascita;
+	private String diagnosi; //??medico deve gestire
 	private Monitor monitor;
 	private File path; //directory in cui salvo tutti i dati del ricovero attuale
+	static private DateFormat form=  new  SimpleDateFormat();
 	
 	/**
 	 * Costruttore di inizializzazione
@@ -33,7 +28,7 @@ public class Paziente {
 	 * @param dataNascita
 	 */
 	public Paziente(String nome, String cognome, String codiceSanitario, String luogoNascita, Date dataNascita) {
-		this.codiceSanitario=codiceSanitario;
+		this.codiceSanitario=codiceSanitario.toUpperCase();
 		this.cognome=cognome;
 		this.nome=nome;
 		this.luogoNascita=luogoNascita;
@@ -44,7 +39,7 @@ public class Paziente {
 			path.mkdir(); //creo directory
 			//creo e riempo file dati anagrafici
 			try(FileWriter out=new FileWriter(new File(path, "dati_anagrafici"),true)) {
-				out.write(nome+";"+cognome+";"+codiceSanitario+";"+luogoNascita+";"+dataNascita.toString());
+				out.write(nome+";"+cognome+";"+codiceSanitario+";"+luogoNascita+";"+form.format(dataNascita.toString()));
 			} catch (IOException e) {
 				System.out.println(e);
 			} 
@@ -64,7 +59,7 @@ public class Paziente {
 	 * Costruttore di recupero
 	 */
 	public Paziente(File path,String codiceSanitario){
-		this.codiceSanitario=codiceSanitario;
+		this.codiceSanitario=codiceSanitario.toUpperCase();
 		this.path=path;
 		monitor=new Monitor(this, new ConcreteSubject());
 	}
@@ -76,12 +71,20 @@ public class Paziente {
 			cognome=v[1];
 			codiceSanitario=v[2];
 			luogoNascita=v[3];
-			DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
-			dataNascita=  df.parse(v[4]);  
+			dataNascita= form.parse(v[4]);  
 		} catch (IOException e) { e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	void setDiagnosi(String diagnosi) {
+		this.diagnosi=diagnosi;
+		try(FileWriter out=new FileWriter(new File(path, "Diagnosi"),true)) {
+			out.write(diagnosi);
+		} catch (IOException e) {
+			System.out.println(e);
+		} 
 	}
 	
 	/**
@@ -136,4 +139,21 @@ public class Paziente {
 	public Monitor getMonitor() {
 		return monitor;
 	}
+	
+	/**
+	 * Restituisce il valore di diagnosi. Se diagnosi non è stato già salvato allora return null
+	 * @return
+	 */
+	public String getDiagnosi() {
+		if(diagnosi==null) {
+			try(BufferedReader out=new BufferedReader(new FileReader( new  File(path, "Diagnosi")))) {
+				diagnosi=out.readLine();
+				if(diagnosi.length()!=0) return diagnosi;
+			} catch (IOException e) {
+				return null;
+			} 
+		}
+		return null;
+	}
+	
 }

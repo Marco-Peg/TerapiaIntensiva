@@ -1,35 +1,34 @@
-import java.awt.Container;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 
 /**
- * 
+ * Gestore dei pazienti nella sessione attuale 
  * pattern: singleton
- *
  */
 public class Archivio implements Visualizzazione{
 	private List<Paziente> listaPazienti;
 	private int dim;
 	private static Archivio instance;
 	static final String archivioPath="files/archivio/";
+	private JMenu jmParametriVitali=new JMenu("ParametriVitali");
 	
 	/**
 	 * Costruttore
-	 * @param dim
 	 */
 	private Archivio(int dim){
 		this.dim=dim;
 		listaPazienti = new ArrayList<Paziente>(dim);
-		try(BufferedReader read = new BufferedReader(new FileReader(new File(Start.defaultPath,"archivio")));) {
+		try(BufferedReader read = new BufferedReader(new FileReader(new File(Start.defaultPath,"archivio")))) {
 			String v=read.readLine();
 			while(v!=null) {
 				if(v.length()>2) {
@@ -47,9 +46,8 @@ public class Archivio implements Visualizzazione{
 	}
 	
 	/**
-	 * 
-	 * @param i
-	 * @return
+	 * Restriuisce l'unica istanza di archivio
+	 * @param i numero di posti massimo, se inizializzato la prima volta
 	 */
 	public static Archivio getArchivio(int i) {
 		if(instance== null)
@@ -58,8 +56,7 @@ public class Archivio implements Visualizzazione{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Restriuisce l'unica istanza di archivio, default massimo 10
 	 */
 	public static Archivio getArchivio() {
 		if(instance== null)
@@ -68,31 +65,83 @@ public class Archivio implements Visualizzazione{
 	}
 	
 	/**
-	 * 
+	 * JMenu per l'accesso a tutti i parametri vitali
 	 * @return
+	 */
+	JMenu getParamVitali() {
+		return jmParametriVitali;
+	}
+	
+	/**
+	 * aggiorna il jmenu dei parametri vitali
+	 */
+	private void updateParamVitali() {
+		jmParametriVitali.removeAll();
+		for(Paziente p: listaPazienti) {
+			JMenuItem paz=new JMenuItem(p.getID());
+			jmParametriVitali.add(paz);
+			paz.addActionListener(p.getMonitor());
+		}
+	}
+	
+	/**
+	 * Determina se è al completo
 	 */
 	public boolean isFull() {
 		return (dim==listaPazienti.size());
 	}
 	
-	public void addArc(Paziente id){	//aggiungi elemento a lista
+	/**
+	 * Aggiunge un paziente e aggiorna jmenu parametri vitali
+	 * @param id nuovo paziente
+	 */
+	public void addArc(Paziente id){	
 		listaPazienti.add(id);
+		updateParamVitali();
 	}
 	
-	public void delArc(Paziente id){	//rimuovi elemento da lista
+
+	/**
+	 * Rimuove un paziente e aggiorna jmenu parametri vitali
+	 * @param id paziente da rimuovere
+	 */
+	public void delArc(Paziente id){	
 		listaPazienti.remove(id);
+		id.getMonitor().stop();
+		updateParamVitali();
 	}
 	
+	/**
+	 * determina posizione del paziente nella lista
+	 * @param id paziente 
+	 * @return
+	 */
 	public int getArc(Paziente id){		//trova elemento in lista
 		return listaPazienti.indexOf(id);
 	}
 	
-	public List<Paziente> getLista(){			//ritorna lista completa
-		return listaPazienti;
+	/**
+	 * trova elemento in lista
+	 * @param i posizione
+	 * @return
+	 */
+	public Paziente getPazFromIndex(int i){	
+		return listaPazienti.get(i);
+	}
+	
+	/**
+	 * Ritorna array con codiceSanitario pazienti
+	 * @return
+	 */
+	public String[] getArray(){			
+		String[] v= new String[listaPazienti.size()];
+		int i=0;
+		for(Paziente p: listaPazienti)
+			v[i++]=p.getID();
+		return v;
 	}
 
 	public void visualSomm(Paziente id) {
-
 		JFrame frm = new JFrame("Somministrazioni");
 		frm.setSize(400,400);
 		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -150,13 +199,14 @@ public class Archivio implements Visualizzazione{
 		layout.setVerticalGroup(vGroup);
 		frm.pack();
 
-		try(FileReader file = new FileReader(id.getPath(), "Somministrazioni")){
+		try(FileReader file = new FileReader( new File(id.getPath(), "Somministrazioni"))){
 	        BufferedReader reader =  new BufferedReader(file);
 	        area.read(reader, null);
 		}catch (IOException e) {
 		// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		} 
+		
 		
 	}
 
@@ -170,16 +220,6 @@ public class Archivio implements Visualizzazione{
 		
 	}
 
-	public void visualParam(Paziente id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void visualMonitor(Paziente id) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void report(Paziente id){
 		// TODO Auto-generated method stub
 		

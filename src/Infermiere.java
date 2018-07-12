@@ -62,7 +62,7 @@ public class Infermiere extends Personale{
 	 */
 	JPanel setHeaderPanel() {
 		JPanel out = new JPanel();
-		out.setBorder(BorderFactory.createLineBorder(Color.green));
+		out.setBorder(BorderFactory.createLineBorder(Color.cyan));
 		JLabel jlabel = new JLabel("INFERMIERE  "+id);
 	    jlabel.setFont(new Font("Verdana",1,20));
 	    out.add(jlabel);

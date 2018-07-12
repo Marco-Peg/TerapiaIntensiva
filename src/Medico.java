@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  * Sessione per i medici
- * @author Lorenzo e Marco
+ * @author Lorenzo
  *
  */
 public class Medico extends Personale{
@@ -62,7 +62,7 @@ public class Medico extends Personale{
 	 */
 	JPanel setHeaderPanel() {
 		JPanel out = new JPanel();
-		out.setBorder(BorderFactory.createLineBorder(Color.green));
+		out.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		JLabel jlabel = new JLabel("MEDICO  "+id);
 	    jlabel.setFont(new Font("Verdana",1,20));
 	    out.add(jlabel);
