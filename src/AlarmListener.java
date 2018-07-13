@@ -30,7 +30,7 @@ public class AlarmListener implements ActionListener{
 				if(user.equals(v[0])){
 					if(pass.equals(v[1])){
 						System.out.println(v[2]);
-						if(v[2].equals("d") || v[2].equals("p")){
+						if(v[2].equals("m") || v[2].equals("p")){
 						//?salva azioni effettuate
 							a.interrupt();
 						JOptionPane.showMessageDialog(null, "Allarme gestito con successo", "Gestione allarme", JOptionPane.INFORMATION_MESSAGE);

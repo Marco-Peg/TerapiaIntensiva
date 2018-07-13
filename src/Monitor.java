@@ -27,7 +27,7 @@ public class Monitor implements Observer,ActionListener{
 	 */
 	public Monitor(Paziente idPaziente, ConcreteSubject subject){
 		this.idPaziente=idPaziente;
-		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 1, idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.PRESSIONE.toString()));
+		pressione= new Signal( Signal.tipoSegnale.PRESSIONE, 2, idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.PRESSIONE.toString()));
 		fCardiaca= new Signal( Signal.tipoSegnale.FREQUENZACARDIACA, 5,idPaziente.getPath(), new File("files/Monitoraggio/",  Signal.tipoSegnale.FREQUENZACARDIACA.toString()));
 		temperatura= new Signal( Signal.tipoSegnale.TEMPERATURA, 3, idPaziente.getPath(), new File("files/Monitoraggio/",Signal.tipoSegnale.TEMPERATURA.toString()));
 		pressione.start();

@@ -39,7 +39,7 @@ public class Paziente {
 			path.mkdir(); //creo directory
 			//creo e riempo file dati anagrafici
 			try(FileWriter out=new FileWriter(new File(path, "dati_anagrafici"),true)) {
-				out.write(nome+";"+cognome+";"+codiceSanitario+";"+luogoNascita+";"+form.format(dataNascita.toString()));
+				out.write(nome+";"+cognome+";"+this.codiceSanitario+";"+luogoNascita+";"+form.format(dataNascita));
 			} catch (IOException e) {
 				System.out.println(e);
 			} 
@@ -48,7 +48,7 @@ public class Paziente {
 		path.mkdir();
 		//aggiorna file archivio
 		try(FileWriter out=new FileWriter(new File(Archivio.archivioPath),true)) {
-			out.write(path.toString()+";"+codiceSanitario+"\n");
+			out.write(path.toString()+";"+this.codiceSanitario+"\n");
 		} catch (IOException e) {
 			System.out.println(e);
 		} 

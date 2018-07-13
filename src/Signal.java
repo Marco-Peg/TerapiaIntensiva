@@ -72,10 +72,10 @@ public class Signal extends Thread /*implements Subject*/{
 				 	panelValues.setText(getValues(last));
 				}catch (Exception e) {
 				}
-				Thread.sleep(frequenza*30*1000);
+				Thread.sleep(frequenza*60*1000);
 			}while(! this.isInterrupted());
 		} catch (IOException e) { JOptionPane.showMessageDialog(null,e, sig.toString(), JOptionPane.WARNING_MESSAGE);
-		} catch (InterruptedException e) { JOptionPane.showMessageDialog(null,e, sig.toString(), JOptionPane.WARNING_MESSAGE);
+		} catch (InterruptedException e) {
 		}
 	}
 	

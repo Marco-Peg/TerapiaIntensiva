@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +22,7 @@ public class Primario extends Medico{
 
 	JPanel setPanel() {
 		JPanel out=new JPanel();
-		
+		out.setLayout(new BoxLayout(out, BoxLayout.Y_AXIS));
 		out.add(super.setPanel());
 		
 		JButton report= new JButton("Visualizza Report");

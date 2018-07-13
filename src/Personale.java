@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 /**
@@ -45,7 +46,11 @@ public abstract class Personale {
 		 JButton somministrazioni= new JButton("Visualizza Somministrazioni");
 		somministrazioni.setAlignmentX(Component.CENTER_ALIGNMENT);
 		somministrazioni.setMargin(new Insets(10, 25, 10, 25));
-		//somministrazioni.addActionListener(new Listener());
+		somministrazioni.addActionListener(new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Archivio.getArchivio().visualSomm(null);
+			}
+		});
 		center.add(somministrazioni);
 		
 		//Visualizza cartelle pregresse
@@ -78,4 +83,6 @@ public abstract class Personale {
 	abstract JPanel setHeaderPanel();
 	abstract JPanel setPanel();
 	abstract JMenu addMenu();
+	
+	
 }

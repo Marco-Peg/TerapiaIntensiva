@@ -8,14 +8,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ChiudiCartella implements ActionListener {
-
+	private JFrame frm;
 	private JComboBox<String> pazList;
 	
-	public ChiudiCartella(JComboBox<String> pazList){
+	public ChiudiCartella(JComboBox<String> pazList, JFrame frm){
 		this.pazList = pazList;
+		this.frm=frm;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -29,10 +31,11 @@ public class ChiudiCartella implements ActionListener {
 		
 		try(BufferedReader read = new BufferedReader(new FileReader(new File(Start.defaultPath,"archivio")))) {
 			String v=read.readLine();
+			System.out.println(v);
 			while(v!=null) {
 				if(v.length()>2) {
 					String[] s=v.split(";");
-					if (s[1] != id){
+					if (0 != id.compareToIgnoreCase(s[1])){
 						temp[i++] = v;
 					}					
 				}
@@ -51,7 +54,8 @@ public class ChiudiCartella implements ActionListener {
 		} catch (IOException ei) {
 			System.out.println(ei);
 } 
-			
+		frm.dispose();
+		Archivio.getArchivio().delArc(p);
 		}
 
 	}

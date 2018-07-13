@@ -70,7 +70,7 @@ public class Alarm extends Thread {
 		 end= (LocalTime.now()).plusMinutes(tempo);
 		 frm= new JFrame("Gestore allarme");
 		 frm.setBackground(Color.RED);
-			frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frm.setSize(700, 400);
 			 JPanel intestazione=new JPanel();
 			intestazione.setBorder(BorderFactory.createLineBorder(Color.black));

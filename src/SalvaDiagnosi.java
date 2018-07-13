@@ -24,14 +24,8 @@ public class SalvaDiagnosi implements ActionListener{
 		
 		String testo = area.getText();
 		Paziente p = Archivio.getArchivio().getPazFromIndex(pazList.getSelectedIndex());
-		File txt = new File(p.getPath(), "Diagnosi");
 		
-		try(FileWriter fileW = new FileWriter(txt)){
-			fileW.write(testo);
-		}catch (IOException f) {
-		// TODO Auto-generated catch block
-			f.printStackTrace();
-		}
+		p.setDiagnosi(testo);
 		frame.dispose();
 		
 	}
