@@ -1,3 +1,6 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -5,15 +8,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.SpinnerDateModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
@@ -34,9 +43,11 @@ import javax.swing.GroupLayout.SequentialGroup;
 			frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frm.setVisible(true);
 			
-	        JButton salva= new JButton("Salva Dati");
 			
 			JComboBox pazList = new JComboBox(paz);
+			
+	        JButton salva= new JButton("Salva Dati");
+			
 			
 			JLabel label = new JLabel("SOMMINISTRAZIONI RICEVUTE:");
 
@@ -47,52 +58,77 @@ import javax.swing.GroupLayout.SequentialGroup;
 	        area.setWrapStyleWord(true);
 			
 	        JScrollPane scroll = new JScrollPane(area);
-
-	        GroupLayout layout = new GroupLayout(frm.getContentPane());
-	        frm.getContentPane().setLayout(layout);
 	        
-	        //Create a parallel group for the horizontal axis
+	        JPanel gPanel = new JPanel();
+	        GroupLayout layout = new GroupLayout(gPanel);
+	        gPanel.setLayout(layout);
+	                
 	        ParallelGroup hGroup = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
-	        //Create a sequential and a parallel groups
 	        SequentialGroup h1 = layout.createSequentialGroup();
 	        ParallelGroup h2 = layout.createParallelGroup(GroupLayout.Alignment.TRAILING);
-	        //Add a scroll panel and a label to the parallel group h2
-	        h2.addComponent(pazList, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
 	        h2.addComponent(scroll, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
-	        h2.addComponent(label, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE);
 	        h2.addComponent(salva, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE);
 	        
-	        //Add a container gap to the sequential group h1
 	        h1.addContainerGap();
-	        // Add the group h2 to the group h1
 	        h1.addGroup(h2);
 	        h1.addContainerGap();
-	        //Add the group h1 to hGroup
 	        hGroup.addGroup(Alignment.TRAILING,h1);
-	        //Create the horizontal group
 	        layout.setHorizontalGroup(hGroup);
 	        
 	        
-	        //Create a parallel group for the vertical axis
 	        ParallelGroup vGroup = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
-	        //Create a sequential group
 	        SequentialGroup v1 = layout.createSequentialGroup();
-	        //Add a container gap to the sequential group v1
 			v1.addContainerGap();
-	        //Add a label to the sequential group v1
-			v1.addComponent(label);
-	        v1.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED);
-	        v1.addComponent(pazList);
-	        v1.addContainerGap();
-	        //Add scroll panel to the sequential group v1
 	        v1.addComponent(scroll, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE);
 	        v1.addContainerGap();
 	        v1.addComponent(salva, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE);
 	        v1.addContainerGap();
-	        //Add the group v1 to vGroup
 	        vGroup.addGroup(v1);
-	        //Create the vertical group
 			layout.setVerticalGroup(vGroup);
+			
+	        JPanel fPanel = new JPanel();
+	        fPanel.setLayout(new FlowLayout());
+	        
+	        fPanel.add(label);
+	        
+	        fPanel.add(pazList);
+	       
+			
+			Calendar calendar = Calendar.getInstance();
+			Date initDate = calendar.getTime();
+			calendar.add(Calendar.YEAR, -100);
+			Date earliestDate = calendar.getTime();
+			SpinnerDateModel model=new SpinnerDateModel();
+			model = new SpinnerDateModel(initDate, earliestDate, initDate, Calendar.YEAR);
+			
+			JSpinner spin= new JSpinner(model);
+			spin.setEditor(new JSpinner.DateEditor(spin,"dd/MM/yyyy"));
+			
+			JPanel dataNascita= new JPanel();
+			dataNascita.add(new JLabel("Data: "));
+			dataNascita.add(spin);
+			fPanel.add(dataNascita); 
+			
+			
+			SpinnerDateModel model2 = new SpinnerDateModel();
+			model2.setValue(calendar.getTime());
+
+			JSpinner spinner = new JSpinner(model2);
+			spinner.setEditor(new JSpinner.DateEditor(spinner,"HH:mm      "));
+			
+			JPanel dataNascita2= new JPanel();
+			dataNascita2.add(new JLabel("Ora: "));
+			dataNascita2.add(spinner);
+			fPanel.add(dataNascita2); 
+			
+			
+			fPanel.add(new JLabel("Dosi:"));
+			fPanel.add(new JTextField(5));
+			
+			frm.setPreferredSize(new Dimension(300, 400));
+			
+			frm.add(fPanel, BorderLayout.CENTER);
+			frm.add(gPanel, BorderLayout.SOUTH);
 	        frm.pack();
 		
 			/*try(FileReader file = new FileReader("Somministrazioni.txt")){
@@ -110,3 +146,5 @@ import javax.swing.GroupLayout.SequentialGroup;
 		}
 
 	}
+	
+
