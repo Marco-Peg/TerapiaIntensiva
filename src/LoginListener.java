@@ -46,7 +46,7 @@ public class LoginListener implements ActionListener{
 							}
 							userCreator.getUser(v[0], v[2]);
 							Start.logged=true;
-							System.out.println("Accesso consentito"); return;
+							 return;
 						}
 						else{
 							JOptionPane.showMessageDialog(null, "Accesso non consentito", "Login", JOptionPane.WARNING_MESSAGE); return;

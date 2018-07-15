@@ -141,4 +141,10 @@ public class Signal extends Thread /*implements Subject*/{
 	public tipoSegnale getSignal(){
 		return sig;
 	}
+	/**
+	 * @return frequenza di registrazione segnale
+	 */
+	public int getFrequenza(){
+		return frequenza;
+	}
 }

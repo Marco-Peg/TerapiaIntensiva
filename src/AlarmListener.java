@@ -8,6 +8,11 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
+/**
+ * Listener al gestore di allarmi
+ * @author Marco
+ *
+ */
 public class AlarmListener implements ActionListener{
 	private Alarm a;
 	private JTextComponent id, password, input;

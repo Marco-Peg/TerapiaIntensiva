@@ -34,7 +34,7 @@ public class Paziente {
 		this.luogoNascita=luogoNascita;
 		this.dataNascita=dataNascita;
 		
-		path=new File(Start.databasePath, codiceSanitario);
+		path=new File(Start.databasePath, codiceSanitario.toLowerCase());
 		if(!path.exists()) {
 			path.mkdir(); //creo directory
 			//creo e riempo file dati anagrafici

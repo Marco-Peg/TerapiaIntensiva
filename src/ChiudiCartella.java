@@ -31,7 +31,6 @@ public class ChiudiCartella implements ActionListener {
 		
 		try(BufferedReader read = new BufferedReader(new FileReader(new File(Start.defaultPath,"archivio")))) {
 			String v=read.readLine();
-			System.out.println(v);
 			while(v!=null) {
 				if(v.length()>2) {
 					String[] s=v.split(";");

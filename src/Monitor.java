@@ -11,6 +11,7 @@ import javax.swing.*;
 /**
  * Monitor che gestisce la ricezione dei segnali e eventuali allarmi
  * pattern: facade
+ *@author Marco 
  *
  */
 public class Monitor implements Observer,ActionListener{
@@ -73,12 +74,18 @@ public class Monitor implements Observer,ActionListener{
 		this.last=last;
 		frm=new JFrame("Parametri "+idPaziente.getID());
 		frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frm.setSize(750, 250);
-		JLabel jlabel = new JLabel("MONITORAGGIO PARAMETRI VITALI "+idPaziente.getID());
-	    jlabel.setFont(new Font("Verdana",1,12));
+		frm.setSize(750, 300);
+		JPanel intestazione=new JPanel(new BorderLayout());
+		JLabel jl1 = new JLabel("MONITORAGGIO PARAMETRI VITALI ultimi "+last+" minuti");
+	    jl1.setFont(new Font("Verdana",1,12));
+	    JLabel jl2 = new JLabel("Paziente: "+idPaziente.getID());
+	    jl1.setHorizontalAlignment(SwingConstants.CENTER);
+	    jl2.setHorizontalAlignment(SwingConstants.CENTER);
+	    intestazione.add(jl1, BorderLayout.NORTH);
+	    intestazione.add(jl2, BorderLayout.CENTER);
 	    JPanel jpv=new JPanel();
 		jpv.setLayout(new FlowLayout(FlowLayout.CENTER));	
-		jpv.add(jlabel);
+		jpv.add(intestazione);
 		frm.add(jpv, BorderLayout.NORTH);
 		JPanel values=new JPanel();
 		values.setLayout(new GridLayout(1,3,1,1));
@@ -86,20 +93,44 @@ public class Monitor implements Observer,ActionListener{
 		
 		 jpv=new JPanel();
 		jpv.setLayout(new FlowLayout(FlowLayout.CENTER));
-		jpv.add(new JLabel(pressione.getSignal().toString()+":"));
+		intestazione=new JPanel(new BorderLayout());
+		jl1 = new JLabel(pressione.getSignal().toString());
+	    jl1.setFont(new Font("Verdana",1,12));
+	    jl2 =new JLabel("Frequenza: "+pressione.getFrequenza()+" minuti");
+	    jl1.setHorizontalAlignment(SwingConstants.CENTER);
+	    jl2.setHorizontalAlignment(SwingConstants.CENTER);
+	    intestazione.add(jl1, BorderLayout.NORTH);
+	    intestazione.add(jl2, BorderLayout.CENTER);
+		   jpv.add(intestazione);
 		jpv.add(pressione.getPanel(last));
 		values.add(jpv);
 		
 		jpv=new JPanel();
 		jpv.setLayout(new FlowLayout(FlowLayout.CENTER));
-		jpv.add(new JLabel(fCardiaca.getSignal().toString()+":"));
-		jpv.add(fCardiaca.getPanel(last));
+		intestazione=new JPanel(new BorderLayout());
+		jl1 = new JLabel(fCardiaca.getSignal().toString());
+	    jl1.setFont(new Font("Verdana",1,12));
+	    jl2 =new JLabel("Frequenza: "+fCardiaca.getFrequenza()+" minuti");
+	    jl1.setHorizontalAlignment(SwingConstants.CENTER);
+	    jl2.setHorizontalAlignment(SwingConstants.CENTER);
+	    intestazione.add(jl1, BorderLayout.NORTH);
+	    intestazione.add(jl2, BorderLayout.CENTER);
+		   jpv.add(intestazione);
+		   jpv.add(fCardiaca.getPanel(last));
 		values.add(jpv);
 		
 		jpv=new JPanel();
 		jpv.setLayout(new FlowLayout(FlowLayout.CENTER));
-		jpv.add(new JLabel(temperatura.getSignal().toString()+":"));
-		jpv.add(temperatura.getPanel(last));
+		intestazione=new JPanel(new BorderLayout());
+		jl1 = new JLabel(temperatura.getSignal().toString());
+	    jl1.setFont(new Font("Verdana",1,12));
+	    jl2 =new JLabel("Frequenza: "+temperatura.getFrequenza()+" minuti");
+	    jl1.setHorizontalAlignment(SwingConstants.CENTER);
+	    jl2.setHorizontalAlignment(SwingConstants.CENTER);
+	    intestazione.add(jl1, BorderLayout.NORTH);
+	    intestazione.add(jl2, BorderLayout.CENTER);
+	   jpv.add(intestazione);
+	   jpv.add(temperatura.getPanel(last));
 		values.add(jpv);
 		values.setBorder(BorderFactory.createEtchedBorder());
 		frm.add(values, BorderLayout.CENTER);
