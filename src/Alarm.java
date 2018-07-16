@@ -24,6 +24,7 @@ public class Alarm extends Thread {
 	 */
 	public Alarm(Paziente idPaziente, int state) {
 		this.idPaziente=idPaziente;
+		idPaziente.addAllarme();
 		this.state=state;
 	}
 	
@@ -114,9 +115,13 @@ public class Alarm extends Thread {
 			Thread.sleep(tempo*60*1000);
 		} catch (InterruptedException e) {
 			frm.dispose();
+			idPaziente.removeAllarme();
+
 			return;
 		}
 		frm.dispose();
+		idPaziente.removeAllarme();
+
 		JOptionPane.showMessageDialog(null,
 			    "L'allarme del paziente "+idPaziente.getCognome()+' '+idPaziente.getNome()+"del tipo "+nomeAllarme +" non è statto gestito.",
 			    "Allarme non gestito", JOptionPane.ERROR_MESSAGE);

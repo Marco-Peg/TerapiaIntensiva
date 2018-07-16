@@ -1,6 +1,8 @@
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -54,6 +57,13 @@ public class InsertListener implements ActionListener {
 		if(!((JFormattedTextField) comp[1]).isEditValid()) {
 			JOptionPane.showMessageDialog(null, "Codice sanitario non valido", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
+		codSan=((JTextComponent) comp[1]).getText();
+		codSan.toUpperCase();
+		for(String cod: Archivio.getArchivio().getArray()) {
+			if(cod.equalsIgnoreCase(codSan)) {
+				JOptionPane.showMessageDialog(null, "Paziente già ricoverato", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
+			}
+		}
 		//controllo data
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.YEAR, -1);
@@ -64,8 +74,6 @@ public class InsertListener implements ActionListener {
 		if(d.after(max) || d.before(earliestDate)) {
 			JOptionPane.showMessageDialog(null, "Data non valida", "Registrazione paziente", JOptionPane.WARNING_MESSAGE); return;
 		}
-		codSan=((JTextComponent) comp[1]).getText();
-		codSan.toUpperCase();
 		comp=cognome.getComponents();
 		surname=((JTextComponent) comp[1]).getText();
 		comp=luogoNascita.getComponents();
@@ -97,10 +105,31 @@ public class InsertListener implements ActionListener {
 			}
 			JOptionPane.showMessageDialog(null, "Paziente già registrato. Aggiornamento avvenuto con successo", "Registrazione paziente", JOptionPane.INFORMATION_MESSAGE); 
 		}else {
-			JOptionPane.showMessageDialog(null, "Paziente  registrato con successo", "Registrazione paziente", JOptionPane.INFORMATION_MESSAGE); 
+			//conferma dati inseriti
+			final JOptionPane optionPane = new JOptionPane(  "Confermi i dati inseriti?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+			final JDialog dialog = new JDialog(frm,  "Click a button", true);
+			optionPane.addPropertyChangeListener(
+				    new PropertyChangeListener() {
+				        public void propertyChange(PropertyChangeEvent e) {
+				            String prop = e.getPropertyName();
+				            if (dialog.isVisible()  && (e.getSource() == optionPane) && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+					                dialog.dispose();
+				            }
+				        }
+				    });
+					dialog.setSize(250, 150);
+					dialog.setContentPane(optionPane);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					int value = ((Integer)optionPane.getValue()).intValue();
+	            	if (value == JOptionPane.NO_OPTION) {
+	        			return;
+	            	}
 		}
+		
 		Paziente p=new Paziente(name, surname, codSan, lNascita, (Date)spin.getValue());
 		Archivio.getArchivio().addArc(p);
+		JOptionPane.showMessageDialog(null, "Paziente  registrato con successo", "Registrazione paziente", JOptionPane.INFORMATION_MESSAGE); 
 		frm.dispose();
 	}
 

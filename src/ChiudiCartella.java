@@ -23,7 +23,10 @@ public class ChiudiCartella implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		Paziente p = Archivio.getArchivio().getPazFromIndex(pazList.getSelectedIndex());
-		
+		if(p.getAllarme()!=0) {
+			JOptionPane.showMessageDialog(null, "Allarme del paziente in corso", "Termine ricovero", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		String id = p.getID();
 		int L = Archivio.getArchivio().getArray().length;
 		String[] temp = new String [L-1];

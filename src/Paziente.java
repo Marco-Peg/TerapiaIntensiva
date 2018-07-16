@@ -18,6 +18,7 @@ public class Paziente {
 	private Monitor monitor;
 	private File path; //directory in cui salvo tutti i dati del ricovero attuale
 	static private DateFormat form=  new  SimpleDateFormat();
+	private int allarme=0;
 	
 	/**
 	 * Costruttore di inizializzazione
@@ -154,6 +155,16 @@ public class Paziente {
 			} 
 		}
 		return null;
+	}
+	
+	public void addAllarme() {
+		allarme++;
+	}
+	public void removeAllarme() {
+		allarme--;
+	}
+	public int getAllarme() {
+		return allarme;
 	}
 	
 }

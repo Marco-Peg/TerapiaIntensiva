@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +43,26 @@ public class Prova {
 	private static InsertListener ins;
 	
 		public static void main(String[] args) {
-				insertPaz();
+			final JOptionPane optionPane = new JOptionPane(  "Confermi i dati inseriti?", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+			final JDialog dialog = new JDialog(new JFrame(),  "Click a button", true);
+			optionPane.addPropertyChangeListener(
+				    new PropertyChangeListener() {
+				        public void propertyChange(PropertyChangeEvent e) {
+				            String prop = e.getPropertyName();
+
+				            if (dialog.isVisible()  && (e.getSource() == optionPane) && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+				            	int value = ((Integer)optionPane.getValue()).intValue();
+				            	if (value == JOptionPane.YES_OPTION) {
+				        			System.out.println("anadata");
+				            	}
+				                dialog.setVisible(false);
+				            }
+				        }
+				    });
+			dialog.setSize(250, 150);
+					dialog.setContentPane(optionPane);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
 				
 
 	}
